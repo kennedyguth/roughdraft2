@@ -1,0 +1,66 @@
+body{
+    background-color: rgb(232, 223, 213);
+    color: rgb(148, 112, 89);
+}
+
+h1{
+    color: rgb(97, 71, 55);
+    font-style: oblique;
+    text-decoration: underline;
+    font-size: 8ch;
+    
+}
+h2{
+    color: rgb(121, 91, 73);
+    font-weight: bold;
+}
+
+h3{
+    color: rgb(135, 109, 93);
+    text-decoration: underline;
+    font-size: 4ch;
+}
+
+.navbar{
+    background-color: rgb(97, 71, 55);
+    padding: 10px;
+    display: flex;
+    justify-content: right;
+    align-items: center;
+
+}
+
+.navbar a{
+    color:rgb(232, 223, 213);
+    text-decoration: none;
+    padding: 10px 15px;
+    font-size: medium;
+}
+
+.navbar a:hover{
+    background-color: rgb(135, 109, 93);
+    border-radius: 5px;
+}
+
+.box-model{
+    padding: 10px;
+    justify-content: center;
+    display: flex;
+    background-color: rgb(255, 252, 240);
+    border: 8px solid rgb(97, 71, 55);
+    margin: 20px;
+    align-items: center;
+}
+
+.scrolltotop {
+    color: rgb(148, 112, 89);
+}
+.scrolltotop a {
+    color:rgb(232, 223, 213);
+    text-decoration: none;
+    padding: 10px 15px;
+    font-size: medium;
+}
+.scrolltotop: a:hover {
+    color: rgb (97, 71, 55);
+}

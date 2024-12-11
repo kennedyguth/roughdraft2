@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Word Guess Game</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+        #gameContainer {
+            text-align: center;
+        }
+        .row {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 10px;
+        }
+        .tile {
+            width: 50px;
+            height: 50px;
+            margin: 2px;
+            border: 1px solid #ccc;
+            font-size: 24px;
+            font-weight: bold;
+            text-align: center;
+            line-height: 50px;
+            text-transform: uppercase;
+            background-color: #fff;
+        }
+        .correct {
+            background-color: green;
+            color: white;
+        }
+        .present {
+            background-color: yellow;
+            color: black;
+        }
+        .absent {
+            background-color: gray;
+            color: white;
+        }
+        #message {
+            margin-top: 20px;
+            font-size: 20px;
+        }
+        input {
+            margin-top: 10px;
+            padding: 10px;
+            font-size: 18px;
+            width: 300px;
+        }
+    </style>
+</head>
+<body>
+    <div id="gameContainer">
+        <h1>Word Guess Game</h1>
+        <div id="grid"></div>
+        <input type="text" id="guessInput" placeholder="Enter your guess">
+        <button onclick="submitGuess()">Submit</button>
+        <div id="message"></div>
+    </div>
+
+    <script>
+        const words = {
+            1: "apple",
+            2: "banana",
+            3: "cherry",
+            4: "dragonfruit",
+        };
+
+        let level = 1;
+        let currentWord = words[level];
+        let currentRow = 0;
+        const maxRows = 6;
+
+        const gameContainer = document.getElementById("gameContainer");
+        const grid = document.getElementById("grid");
+        const message = document.getElementById("message");
+        const guessInput = document.getElementById("guessInput");
+
+        // Initialize the grid for the current level
+        function initializeGrid(wordLength) {
+            grid.innerHTML = "";
+            for (let i = 0; i < maxRows; i++) {
+                const row = document.createElement("div");
+                row.classList.add("row");
+                for (let j = 0; j < wordLength; j++) {
+                    const tile = document.createElement("div");
+                    tile.classList.add("tile");
+                    row.appendChild(tile);
+                }
+                grid.appendChild(row);
+            }
+        }
+
+        // Start the game for the current level
+        function startLevel() {
+            currentWord = words[level];
+            currentRow = 0;
+            message.textContent = `Level ${level}: Guess the ${currentWord.length}-letter word!`;
+            guessInput.value = "";
+            guessInput.setAttribute("maxlength", currentWord.length);
+            initializeGrid(currentWord.length);
+        }
+
+        // Handle the player's guess
+        function submitGuess() {
+            const guess = guessInput.value.toLowerCase();
+            guessInput.value = "";
+
+            if (guess.length !== currentWord.length) {
+                message.textContent = `Please enter a ${currentWord.length}-letter word.`;
+                return;
+            }
+
+            const row = document.getElementsByClassName("row")[currentRow];
+            const tiles = row.getElementsByClassName("tile");
+
+            let correctCount = 0;
+
+            for (let i = 0; i < currentWord.length; i++) {
+                const letter = guess[i];
+                const tile = tiles[i];
+                tile.textContent = letter;
+
+                if (letter === currentWord[i]) {
+                    tile.classList.add("correct");
+                    correctCount++;
+                } else if (currentWord.includes(letter)) {
+                    tile.classList.add("present");
+                } else {
+                    tile.classList.add("absent");
+                }
+            }
+
+            if (correctCount === currentWord.length) {
+                if (level === Object.keys(words).length) {
+                    message.textContent = "🎉 Congratulations! You completed all levels!";
+                    guessInput.disabled = true;
+                } else {
+                    level++;
+                    message.textContent = "🎉 Correct! Moving to the next level...";
+                    setTimeout(startLevel, 2000);
+                }
+                return;
+            }
+
+            currentRow++;
+
+            if (currentRow === maxRows) {
+                message.textContent = `Game Over! The word was "${currentWord}".`;
+                guessInput.disabled = true;
+            }
+        }
+
+        // Start the first level
+        startLevel();
+    </script>
+</body>
+</html>
+
+
